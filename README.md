@@ -214,8 +214,8 @@ This makes the tool usable by ASHA workers who are not comfortable with English-
 
 | Name | Role |
 |---|---|
-| **[Sampriti Halder]** | Biology domain, dataset research, referral database, validation, presentation |
-| **[Duradarshee Chinara]** | ML pipeline, backend logic, Streamlit interface, PDF generation |
+| **[Sampriti Halder]** | Biology domain, dataset research, referral database, validation, ML pipeline |
+| **[Duradarshee Chinara]** |Backend logic, Streamlit interface, PDF generation |
 
 ---
 
