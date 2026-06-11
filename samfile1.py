@@ -1,13 +1,24 @@
 # =====================================================================
 # SICKLESCREEN: STEP 3 - MODEL GENERATION & TRAINING PIPELINE (WEEK 1)
 # =====================================================================
-
+import joblib
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import recall_score, classification_report
-import joblib
+from sklearn.svm import SVC
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import (
+    recall_score,
+    classification_report,
+    confusion_matrix,
+    roc_auc_score,
+    accuracy_score,
+    precision_score,
+    f1_score
+)
 
 # ---------------------------------------------------------------------
 # STEP 1: Generate Synthetic Dataset
