@@ -1,4 +1,5 @@
-Name,District,Hb,MCV,MCH,RBC,Risk (%),Recommendation
-Alex,Khordha,12.0,80.0,27.0,4.5,33.0,MONITOR
-Omm,Khordha,12.0,80.0,27.0,4.5,33.0,MONITOR
-Manny,Khordha,12.0,80.0,27.0,4.5,33.0,MONITOR
+Timestamp,Name,District,Hb,MCV,MCH,RBC,Risk (%),Recommendation
+"Jun 14, 2026 10:01 PM",—,Khordha,12.0,80.0,27.0,4.5,43.15,MONITOR
+"Jun 14, 2026 10:05 PM",KK,Khordha,12.6,79.1,27.6,5.2,20.11,CLEAR
+"Jun 14, 2026 10:56 PM",Alex,Khordha,12.9,79.3,26.4,5.0,22.45,CLEAR
+"Jun 14, 2026 11:53 PM",—,Khordha,12.0,80.2,27.4,4.5,38.35,MONITOR

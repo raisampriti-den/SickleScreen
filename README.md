@@ -1,236 +1,364 @@
 # 🩸 SickleScreen
+
 ### AI-Assisted Sickle Cell Carrier Screening for Frontline Health Workers
 
-> *"Identify sickle cell carriers in 60 seconds — using blood reports they already have."*
+> **"Identify potential sickle cell carriers in 60 seconds — using blood reports they already have."**
 
 ---
 
-## 📌 The Problem
+# 📌 The Problem
 
-Sickle cell disease is one of the most prevalent genetic disorders in India, disproportionately affecting tribal communities in Odisha, Chhattisgarh, Madhya Pradesh, Maharashtra, and Gujarat. India accounts for roughly **14% of the global sickle cell burden**, with an estimated 10–15 million carriers nationwide.
+Sickle cell disease (SCD) is one of the most prevalent inherited blood disorders in India, disproportionately affecting tribal communities across Odisha, Chhattisgarh, Madhya Pradesh, Maharashtra, and Gujarat.
 
-Despite the Government of India's **National Sickle Cell Anaemia Elimination Mission (2047)**, early detection at the community level remains broken:
+India contributes a significant share of the global sickle cell burden, with millions of individuals carrying the sickle cell trait. Despite the Government of India's **National Sickle Cell Anaemia Elimination Mission 2047**, early detection at the community level remains challenging.
 
-- ASHA workers — the first point of contact in tribal health — **have no digital screening tool**
-- Confirmatory testing (HPLC / Hb electrophoresis) is only available at district hospitals, often hours away
-- Standard CBC reports are generated at PHCs but **never analyzed for carrier risk**
-- Carriers are routinely missed until they have affected children
+Key barriers include:
 
-**SickleScreen bridges that gap.**
+* ❌ Lack of accessible digital screening tools for frontline healthcare workers
+* ❌ Limited availability of confirmatory testing such as HPLC and hemoglobin electrophoresis
+* ❌ Underutilization of routine CBC (Complete Blood Count) reports generated at Primary Health Centres
+* ❌ Missed opportunities for early identification and genetic counseling
 
----
-
-## 💡 What Is SickleScreen?
-
-SickleScreen is a **mobile-first Streamlit application** that takes standard CBC (Complete Blood Count) values — which are routinely collected at Primary Health Centres — and runs them through a trained Random Forest model to produce a **carrier probability score** in seconds.
-
-It is designed to be used by ASHA workers and PHC staff with **no medical AI expertise required**. The output is a simple three-tier recommendation:
-
-| Risk Score | Status | Action |
-|---|---|---|
-| < 30% | 🟢 **CLEAR** | Low likelihood of carrier status |
-| 30–70% | 🟡 **MONITOR** | Retest recommended |
-| > 70% | 🔴 **REFER IMMEDIATELY** | Refer for HPLC / Hb electrophoresis |
-
-The app also surfaces the **nearest government HPLC referral centre** with a contact number, based on the patient's district.
+**SickleScreen aims to bridge this gap.**
 
 ---
 
-## 🧬 How It Works — The Science
+# 💡 What Is SickleScreen?
 
-Sickle cell trait carriers typically show a **distinct CBC signature** compared to healthy individuals:
+SickleScreen is a mobile-friendly Streamlit application that analyzes routinely collected CBC parameters and generates a machine-learning-based risk assessment for sickle cell carrier status.
 
-| Parameter | Normal Range | Carrier Pattern |
-|---|---|---|
-| Hemoglobin (Hb) | 12–16 g/dL | Mildly reduced (~9–11 g/dL) |
-| MCV | 80–100 fL | Microcytic (~70–85 fL) |
-| MCH | 27–32 pg | Reduced (~22–27 pg) |
-| RBC Count | 4–5.5 M/µL | Often low-normal (~3.5–4.2) |
+The application is designed for:
 
-Beyond raw CBC values, SickleScreen engineers two clinically validated hematological indices:
+* ASHA Workers
+* Primary Health Centre Staff
+* Community Health Workers
+* Rural Screening Programs
 
-- **Mentzer Index** = MCV / RBC — helps differentiate sickle trait from iron deficiency anaemia
-- **Shine-Lal Index** = (MCV² × MCH) / 100 — a composite discriminant index for microcytic anaemias
+The system produces an easy-to-understand triage recommendation:
 
-These 6 features together power the Random Forest classifier.
+| Risk Score | Status     | Action                              |
+| ---------- | ---------- | ----------------------------------- |
+| < 30%      | 🟢 CLEAR   | Low likelihood of carrier status    |
+| 30–70%     | 🟡 MONITOR | Follow-up testing recommended       |
+| > 70%      | 🔴 REFER   | Prioritize for confirmatory testing |
+
+In addition, the platform displays the nearest available referral center based on the selected district.
 
 ---
 
-## 🧠 The ML Pipeline
+# 📸 Application Features
 
-### Data
-- **500 synthetic samples** generated from published Indian clinical literature (250 normal, 250 carriers)
-- CBC distributions modeled from mean ± SD values reported in ICMR studies and peer-reviewed Indian hematology journals
-- Dataset saved as `sicklescreen_raw_data.csv`
+### 🏠 Patient Screening Dashboard
+
+* Patient demographic capture
+* CBC parameter input
+* Automatic feature engineering
+* Instant risk scoring
+
+### 🩺 Clinical Risk Assessment
+
+* Machine learning prediction engine
+* Color-coded triage recommendations
+* Referral center suggestions
+* Historical patient tracking
+
+### 📖 Educational Resource Center
+
+Dedicated public-health education modules covering:
+
+* About Sickle Cell Disease
+* Community Impact
+* Symptoms & Warning Signs
+* Prevention & Care
+
+---
+
+# 🧬 Scientific Background
+
+Sickle cell carriers and affected individuals may exhibit characteristic hematological patterns.
+
+| Parameter       | Typical Range | Potential Carrier Pattern |
+| --------------- | ------------- | ------------------------- |
+| Hemoglobin (Hb) | 12–16 g/dL    | Mildly reduced            |
+| MCV             | 80–100 fL     | Often reduced             |
+| MCH             | 27–32 pg      | Often reduced             |
+| RBC Count       | 4–5.5 M/µL    | Low-normal to reduced     |
+
+To improve classification performance, SickleScreen automatically calculates two hematological indices:
+
+### Mentzer Index
+
+[
+Mentzer\ Index = \frac{MCV}{RBC}
+]
+
+### Shine-Lal Index
+
+[
+Shine\text{-}Lal\ Index = \frac{MCV^2 \times MCH}{100}
+]
+
+These engineered features are combined with CBC parameters to power the machine learning classifier.
+
+---
+
+# 🧠 Machine Learning Pipeline
+
+### Dataset Development
+
+* Synthetic clinical dataset generated from distributions reported in Indian hematology literature and public health resources
+* 500 patient profiles used for model development
 
 ### Model
-- **Algorithm:** Random Forest Classifier (100 estimators, `random_state=42`)
-- **Train/Test Split:** 80% / 20%, stratified
-- **Target Metric:** Carrier Sensitivity (Recall) — chosen because false negatives (missing a carrier) are clinically worse than false positives
-- **Benchmark:** The model is validated against the **69% multicenter sensitivity benchmark** from published Indian sickle cell screening studies
-- **Output:** `sicklescreen_model.pkl` (serialized via `joblib`)
 
-### Feature Importance
-The model assigns highest importance to MCV, MCH, and the Shine-Lal Index — consistent with clinical literature indicating microcytic indices as strongest discriminants.
+* Random Forest Classifier
+* 100 estimators
+* Random state = 42
+
+### Training Framework
+
+* Stratified 80/20 train-test split
+* Probability-based risk prediction
+* Triage-focused thresholding
+
+### Feature Inputs
+
+1. Hemoglobin (Hb)
+2. MCV
+3. MCH
+4. RBC Count
+5. Mentzer Index
+6. Shine-Lal Index
 
 ---
 
-## 🗂️ Project Structure
+# 🖥️ System Architecture
 
-```
+## 1. Screening Dashboard (`app.py`)
+
+Core production interface responsible for:
+
+* Patient data capture
+* CBC feature processing
+* Model inference
+* Referral center mapping
+* Historical patient logging
+
+## 2. Educational Modules
+
+### About_Sickle_Cell.py
+
+* Disease overview
+* Inheritance patterns
+* Myth versus fact education
+
+### How_It_Affects_Us.py
+
+* Community impact
+* Social and emotional considerations
+* Emergency warning signs
+
+### Symptoms.py
+
+* Common symptoms
+* Medical red flags
+* Trait versus disease distinctions
+
+### Prevention_and_Care.py
+
+* Prevention strategies
+* Family planning information
+* Care management guidance
+
+---
+
+# 📸 Application Preview
+
+The following screenshots demonstrate the final SickleScreen user experience.
+
+---
+
+## 🏠 Dashboard & Patient Screening
+
+![Dashboard](Reference/dash.png)
+
+The primary screening dashboard used by frontline healthcare workers to enter patient information, CBC parameters, and receive instant AI-assisted risk assessments.
+
+---
+
+## 📖 About Sickle Cell Disease
+
+![About Sickle Cell](Reference/aboutsicklecell.png)
+
+Educational module explaining sickle cell disease, inheritance patterns, carrier status, testing methods, and common myths.
+
+---
+
+## 🌍 How Sickle Cell Affects Communities
+
+![Community Impact](Reference/sicklecellaffectsus.png)
+
+Community-focused educational page covering social impact, emotional wellbeing, stigma reduction, and support strategies.
+
+---
+
+## ❤️ Prevention & Care
+
+![Prevention and Care](Reference/prevention.png)
+
+Evidence-based recommendations covering hydration, infection prevention, family planning, genetic counseling, and long-term disease management.
+
+---
+
+## 🚨 Symptoms & Warning Signs
+
+### Symptoms Overview
+
+![Symptoms Page 1](Reference/Symp1.png)
+
+Overview of common symptoms including pain crises, anemia, fatigue, swelling, infections, and jaundice.
+
+### Emergency Warning Signs
+
+![Symptoms Page 2](Reference/Symp2.png)
+
+Critical warning signs requiring urgent medical attention, including stroke symptoms, chest pain, severe infections, and other medical emergencies.
+
+---
+
+# 🗂️ Project Structure
+
+```text
 SickleScreen/
 │
-├── app.py                      # Main Streamlit application
-├── samfile1.py                 # ML training pipeline (data gen → model export)
-├── samfile2.py                 # Standalone inference/prediction script
+├── app.py
 │
-├── sicklescreen_model.pkl      # Trained Random Forest model
-├── sicklescreen_raw_data.csv   # Synthetic training dataset (500 samples)
-├── patient_history.csv         # Auto-generated screening log
+├── pages/
+│   ├── About_Sickle_Cell.py
+│   ├── How_It_Affects_Us.py
+│   ├── Symptoms.py
+│   └── Prevention_and_Care.py
+├──Reference/
+│   ├── aboutsicklecell.png
+│   ├── dash.png
+│   ├── prevention.png
+│   ├── sicklecellaffectsus.png
+│   ├── Symp1.png
+│   └── Symp2.png
 │
-├── .venv/                      # Virtual environment
+├── samfile1.py
+├── samfile2.py
+│
+├── sicklescreen_best_model.pkl
+├── sicklescreen_raw_data.csv
+├── patient_history.csv
+│
+├── LICENSE.txt
 └── README.md
 ```
 
 ---
 
-## 🖥️ Application Walkthrough
+# 🏥 Referral Database (Current Coverage)
 
-### Screen 1 — Patient Information
-- Enter patient name
-- Select district (Khordha, Koraput, Sundargarh, Cuttack — expandable)
+| District   | Referral Centre                |
+| ---------- | ------------------------------ |
+| Khordha    | Capital Hospital, Bhubaneswar  |
+| Koraput    | District Headquarters Hospital |
+| Sundargarh | IGH Rourkela                   |
+| Cuttack    | SCB Medical College            |
 
-### Screen 2 — CBC Input
-- Enter four standard CBC values: **Hb, MCV, MCH, RBC Count**
-- All values are available on any standard CBC report printed at a PHC
-
-### Screen 3 — Risk Score + Recommendation
-- Model computes carrier probability
-- Displays percentage score and colour-coded recommendation (Clear / Monitor / Refer)
-
-### Screen 4 — Referral Centre
-- Automatically surfaces the nearest government HPLC centre for the selected district
-- Shows centre name and direct phone number
-
-### Screen 5 — Patient History Log
-- All screenings are appended to `patient_history.csv`
-- Last 100 records displayed in-app for the health worker's reference
-
----
-
-## 🏥 Referral Database (Current Coverage)
-
-| District | Referral Centre | Contact |
-|---|---|---|
-| Khordha | Capital Hospital, Bhubaneswar | 0674-2431257 |
-| Koraput | District Headquarters Hospital | 06852-250387 |
-| Sundargarh | IGH Rourkela | 0661-2473456 |
-| Cuttack | SCB Medical College | 0671-2414355 |
-
-> Planned expansion: Maharashtra, Madhya Pradesh, Chhattisgarh, Gujarat — covering the full tribal sickle cell belt.
-
----
-
-## ⚙️ Setup & Installation
-
-### Prerequisites
-- Python 3.10+
-- pip
-
-### Steps
+# ⚙️ Setup & Installation
 
 ```bash
-# 1. Clone the repository
+# Clone repository
 git clone https://github.com/your-username/SickleScreen.git
+
 cd SickleScreen
 
-# 2. Create and activate virtual environment
+# Create virtual environment
 python -m venv .venv
-source .venv/bin/activate        # On Windows: .venv\Scripts\activate
 
-# 3. Install dependencies
-pip install streamlit pandas scikit-learn joblib numpy
+# Activate environment
+# Windows
+.venv\Scripts\activate
 
-# 4. (Optional) Retrain the model from scratch
+# Linux / macOS
+source .venv/bin/activate
+
+# Install dependencies
+pip install streamlit pandas numpy scikit-learn joblib
+
+# Optional: retrain model
 python samfile1.py
 
-# 5. Run the app
-streamlit run app.py
+# Launch application
+python -m streamlit run app.py
 ```
 
-The app will open at `http://localhost:8501` in your browser.
+The application will start locally at:
 
----
-
-## 🧪 Validation
-
-To test the model against known carrier CBC profiles from published literature, run the inference script:
-
-```bash
-python samfile2.py
+```text
+http://localhost:8501
 ```
 
-This loads a sample patient with known carrier-range CBC values (`Hb: 10.5, MCV: 76, MCH: 25, RBC: 4.1`) and prints the carrier probability and recommendation.
+---
 
-For formal validation, 5–10 published case studies of confirmed sickle cell trait carriers were run through the model to verify correct flagging — consistent with the >69% sensitivity threshold.
+# 🎯 Impact & Vision
+
+* Designed to support frontline health workers operating in resource-limited settings
+* Leverages CBC reports already generated in routine healthcare workflows
+* Requires no specialized laboratory infrastructure for initial risk assessment
+* Supports awareness and screening efforts aligned with India's National Sickle Cell Anaemia Elimination Mission 2047
 
 ---
 
-## 🗺️ Roadmap
+# 📚 Educational References
 
-| Phase | Feature | Status |
-|---|---|---|
-| ✅ Week 1 | Synthetic dataset generation + feature engineering | Done |
-| ✅ Week 2 | Random Forest model training + evaluation | Done |
-| ✅ Week 3 | Streamlit app + referral database | Done |
-| 🔄 Week 4 | Multilingual support (Hindi, Odia, Marathi) via IndicTrans2 | In Progress |
-| 🔜 Week 5 | PDF report generation for doctors | Planned |
-| 🔜 Week 5 | Expanded referral database (5-state coverage) | Planned |
-| 🔜 Week 6 | Field validation with real PHC CBC data | Planned |
+Educational content was developed using information from:
 
----
-
-## 🌐 Multilingual Support (Planned)
-
-Using [IndicTrans2](https://github.com/AI4Bharat/IndicTrans2) — an open-source, free translation API built for Indian languages — SickleScreen will support:
-- **Hindi** (primary target)
-- **Odia** (Odisha tribal belt)
-- **Marathi** (Maharashtra coverage)
-
-This makes the tool usable by ASHA workers who are not comfortable with English-language interfaces.
+* Centers for Disease Control and Prevention (CDC)
+* National Heart, Lung, and Blood Institute (NHLBI)
+* National Institutes of Health (NIH)
+* World Health Organization (WHO)
+* MedlinePlus
+* American Society of Hematology (ASH)
 
 ---
 
-## 🎯 Impact Potential
+# 👥 Team
+### Sampriti Halder
 
-- **~900,000 ASHA workers** operate across India's rural and tribal areas
-- Sickle cell belt states — Odisha, Chhattisgarh, MP, Maharashtra, Gujarat — have the highest unmet screening burden
-- SickleScreen aligns directly with the **National Sickle Cell Anaemia Elimination Mission 2047** launched by the Government of India
-- Every PHC already generates CBC reports — SickleScreen adds **zero cost and zero new tests** to the workflow
+* Biological research
+* Clinical validation design
+* Reference dataset engineering
+* Machine learning pipeline development
+* Statistical evaluation
+### Duradarshee Chinara
 
----
+* Full-stack application development
+* Streamlit UI/UX architecture
+* Model integration
+* Referral center mapping
+* Educational portal development
 
-## 👥 Team
-
-| Name | Role |
-|---|---|
-| **[Sampriti Halder]** | Biology domain research, dataset research, validation strategy, referral database, ML pipeline development, model evaluation |
-| **[Duradarshee Chinara]** |Full-stack app development, backend prediction logic, Streamlit frontend interface, patient input workflow, model integration, PDF report generation, app modification and deployment support |
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 🙏 Acknowledgements
+# ⚠️ Disclaimer
 
-- ICMR and Indian Journal of Hematology for published CBC reference ranges
-- [AI4Bharat](https://ai4bharat.iitm.ac.in/) for IndicTrans2 multilingual support
-- Government of India — National Sickle Cell Anaemia Elimination Mission 2047
+SickleScreen is intended solely for educational, research, and screening purposes.
+
+The application does **not** diagnose sickle cell disease or sickle cell trait and should not be used as a substitute for professional medical advice, diagnosis, or treatment.
+
+Individuals identified as potentially at risk should undergo confirmatory testing, such as hemoglobin electrophoresis or HPLC, and consult qualified healthcare professionals.
 
 ---
 
-*Built for Samsung Solve for Tomorrow 2026 — using technology to serve frontline health workers in tribal India.*
+# 📄 License
+
+Copyright © 2026 Duradarshee Chinara and Sampriti Halder.
+
+All Rights Reserved.
+
+This project, including its source code, machine learning models, datasets, documentation, and associated materials, may not be copied, modified, distributed, published, sublicensed, or commercially used without prior written permission from the copyright holders.
