@@ -1,4 +1,5 @@
 import streamlit as st
+from FrontStyle.theme import inject_theme
 
 st.set_page_config(page_title="About Sickle Cell | SickleScreen", page_icon="🩸", layout="wide")
 
@@ -18,6 +19,7 @@ div[data-testid="stPageLink"] a { background:#0f172a; border:1px solid #1e293b; 
 justify-content:center; padding:7px 10px; }
 </style>
 """, unsafe_allow_html=True)
+inject_theme()
 
 nav = st.columns(5)
 for col, path, label, icon in zip(nav,

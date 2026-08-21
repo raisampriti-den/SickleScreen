@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import os
 from datetime import datetime
+from FrontStyle.theme import inject_theme
 
 st.set_page_config(page_title="SickleScreen", page_icon="🩸", layout="wide")
 
@@ -201,6 +202,7 @@ div[data-testid="stPageLink"] a:hover {
 }
 </style>
 """, unsafe_allow_html=True)
+inject_theme()
 
 # ─────────────────────────── SESSION STATE ───────────────────────────
 if "result" not in st.session_state:
@@ -230,19 +232,6 @@ def load_model():
     return None
 
 model = load_model()
-
-# ─────────────────────────── NAVBAR ───────────────────────────
-st.markdown("""
-<div class="navbar">
-  <div class="navbar-brand">
-    <span class="navbar-logo">🩸</span>
-    <div>
-      <p class="navbar-title">SickleScreen</p>
-      <p class="navbar-sub">AI-Powered Sickle Cell Screening</p>
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
 
 # ─────────────────────────── NAVIGATION (Streamlit-native) ───────────────────────────
 # These links target the existing Python pages and preserve the dashboard as-is.
