@@ -3,3 +3,7 @@ Timestamp,Name,District,Hb,MCV,MCH,RBC,Risk (%),Recommendation
 "Jun 14, 2026 10:05 PM",KK,Khordha,12.6,79.1,27.6,5.2,20.11,CLEAR
 "Jun 14, 2026 10:56 PM",Alex,Khordha,12.9,79.3,26.4,5.0,22.45,CLEAR
 "Jun 14, 2026 11:53 PM",—,Khordha,12.0,80.2,27.4,4.5,38.35,MONITOR
+"Jul 30, 2026 12:25 AM",dooora,Khordha,17.4,88.1,29.9,5.81,30.85,MONITOR
+"Jul 30, 2026 12:25 AM",dooora,Khordha,17.4,88.1,29.9,5.81,30.85,MONITOR
+"Jul 30, 2026 12:25 AM",dooora,Khordha,17.4,88.1,29.9,10.0,97.12,REFER
+"Aug 06, 2026 11:54 PM",—,Khordha,6.7,67.0,6.7,6.7,97.2,REFER

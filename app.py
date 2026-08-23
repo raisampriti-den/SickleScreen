@@ -170,16 +170,6 @@ div[data-testid="stDataFrameResizable"] { border: 1px solid #1e293b; border-radi
 .pill-clear   { background:#062010; color:#4ade80; }
 
 /* ── Education Cards ── */
-.edu-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px; }
-.edu-card {
-    background:#0f172a; border:1px solid #1e293b; border-radius:14px;
-    padding:20px 22px; display:flex; flex-direction:column; gap:8px;
-}
-.edu-icon { font-size:1.4rem; }
-.edu-title { font-size:0.9rem; font-weight:700; color:#f8fafc; }
-.edu-desc  { font-size:0.78rem; color:#94a3b8; line-height:1.5; flex:1; }
-.edu-link  { color:#e879f9; font-size:0.8rem; font-weight:600; text-decoration:none; cursor:pointer; }
-
 /* ── Footer ── */
 .footer { text-align:center; color:#334155; font-size:0.75rem; margin-top:28px; padding:16px; }
 
@@ -235,17 +225,15 @@ model = load_model()
 
 # ─────────────────────────── NAVIGATION (Streamlit-native) ───────────────────────────
 # These links target the existing Python pages and preserve the dashboard as-is.
-nav_cols = st.columns(5, gap="small")
+nav_cols = st.columns(4, gap="small")
 with nav_cols[0]:
-    st.page_link("app.py", label="Dashboard", icon=":material/home:")
+    st.page_link("app.py", label="Screen", icon=":material/bloodtype:")
 with nav_cols[1]:
-    st.page_link("pages/About_Sickle_Cell.py", label="About Sickle Cell", icon=":material/menu_book:")
+    st.page_link("pages/Understand_Sickle_Cell.py", label="Understand", icon=":material/genetics:")
 with nav_cols[2]:
-    st.page_link("pages/How_It_Affects_Us.py", label="How It Affects Us", icon=":material/groups:")
+    st.page_link("app.py", label="History", icon=":material/monitoring:")
 with nav_cols[3]:
-    st.page_link("pages/Symptoms.py", label="Symptoms", icon=":material/medical_information:")
-with nav_cols[4]:
-    st.page_link("pages/Prevention_and_Care.py", label="Prevention & Care", icon=":material/health_and_safety:")
+    st.page_link("pages/About.py", label="About", icon=":material/info:")
 
 # ─────────────────────────── METRICS ───────────────────────────
 def safe_read_csv(path):
@@ -546,37 +534,6 @@ with right:
         """, unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
-
-# ─────────────────────────── EDUCATION CARDS ───────────────────────────
-st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
-st.markdown('<hr style="border-color:#1e293b; margin:0 0 16px 0;">', unsafe_allow_html=True)
-
-edu_cards = [
-    ("📖", "About Sickle Cell Anemia",
-     "Learn about sickle cell disease, symptoms, causes and prevention.",
-     "Learn More →"),
-    ("👥", "How It Affects Us",
-     "Understand the impact on individuals, families and communities.",
-     "Explore →"),
-    ("🩺", "Symptoms & Signs",
-     "Identify common symptoms and when to seek medical help.",
-     "View Symptoms →"),
-    ("🛡️", "Prevention & Care",
-     "Guidelines for prevention, care and management.",
-     "Read More →"),
-]
-
-edu_cols = st.columns(4)
-for col, (icon, title, desc, link) in zip(edu_cols, edu_cards):
-    with col:
-        st.markdown(f"""
-        <div class="edu-card">
-          <div class="edu-icon">{icon}</div>
-          <div class="edu-title">{title}</div>
-          <div class="edu-desc">{desc}</div>
-          <span class="edu-link">{link}</span>
-        </div>
-        """, unsafe_allow_html=True)
 
 # ─────────────────────────── FOOTER ───────────────────────────
 st.markdown('<div class="footer">© 2025 SickleScreen. All rights reserved.</div>', unsafe_allow_html=True)

@@ -20,6 +20,7 @@ def inject_theme():
         html, body, [class*="css"] {{ font-family:'DM Sans',sans-serif; }}
         [data-testid="stAppViewContainer"] {{
           background:linear-gradient(110deg,rgba(2,9,24,.87),rgba(6,14,34,.76)),url("data:image/jpeg;base64,{background}") center/cover fixed no-repeat;
+          animation:biomedicalDrift 42s ease-in-out infinite;
         }}
         [data-testid="stAppViewContainer"]::before {{
           content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
@@ -27,6 +28,7 @@ def inject_theme():
           animation:ambientGlow 18s ease-in-out infinite alternate;
         }}
         @keyframes ambientGlow {{ to {{ opacity:.56; transform:scale(1.04); }} }}
+        @keyframes biomedicalDrift {{ 0%,100% {{ background-position:center center; }} 50% {{ background-position:52% 48%; }} }}
         .stMainBlockContainer, [data-testid="stHeader"], [data-testid="stSidebar"] {{ position:relative; z-index:1; }}
         .block-container {{ max-width:1240px; padding:1.15rem 2rem 2.5rem; }}
         [data-testid="stHeader"] {{ background:transparent; }}
@@ -44,11 +46,15 @@ def inject_theme():
         .hero h1,.hero-title {{ color:#f8fdff !important; font-family:'Manrope',sans-serif; font-size:clamp(1.55rem,3vw,2.1rem); font-weight:800; margin:.3rem 0; }}
         .hero p,.hero-sub {{ color:#bfd1e2 !important; line-height:1.65; max-width:780px; }}
         .eyebrow,.hero-eyebrow,.form-group-title {{ color:#70d7ee !important; font-size:.72rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }}
-        .metrics-row,.edu-grid {{ gap:14px; }}
-        .metric-card,.section-card,.card,.edu-card {{ background:linear-gradient(145deg,rgba(11,28,54,.82),rgba(9,22,45,.62)); border:1px solid rgba(146,205,234,.19); border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.17),inset 0 1px rgba(255,255,255,.08); backdrop-filter:blur(15px); }}
-        .metric-card,.card,.edu-card {{ transition:transform .25s ease,border-color .25s ease,background .25s ease; }}
-        .metric-card:hover,.card:hover,.edu-card:hover {{ transform:translateY(-3px); border-color:rgba(106,218,241,.44); background:linear-gradient(145deg,rgba(14,38,69,.89),rgba(9,25,51,.72)); }}
+        .metrics-row {{ gap:14px; }}
+        .metric-card,.section-card,.card {{ background:linear-gradient(145deg,rgba(11,28,54,.82),rgba(9,22,45,.62)); border:1px solid rgba(146,205,234,.19); border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.17),inset 0 1px rgba(255,255,255,.08); backdrop-filter:blur(15px); }}
+        .metric-card,.card {{ transition:transform .25s ease,border-color .25s ease,background .25s ease; }}
+        .metric-card:hover,.card:hover {{ transform:translateY(-3px); border-color:rgba(106,218,241,.44); background:linear-gradient(145deg,rgba(14,38,69,.89),rgba(9,25,51,.72)); }}
         .card {{ padding:21px; height:100%; }} .card h3 {{ font-size:1rem; margin-top:0; }} .card p,.card li {{ line-height:1.65; }}
+        .understand-visual {{ display:block; width:min(100%,1000px); margin:0 auto 1.8rem; border:1px solid rgba(116,211,236,.36); border-radius:18px; box-shadow:0 18px 46px rgba(0,0,0,.3),0 0 28px rgba(61,190,219,.12),inset 0 1px rgba(255,255,255,.14); }}
+        .understand-copy {{ max-width:900px; margin:0 auto; }} .support-panel {{ padding:0 0 1rem; }} .support-panel h2 {{ margin:1.15rem 0 .35rem !important; font-size:1.12rem !important; }} .support-panel p {{ max-width:700px; margin:.25rem 0; line-height:1.62; }}
+        .care-flow {{ display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin:1.2rem 0 .7rem; color:#e6f8ff; font-weight:600; }} .care-flow span {{ padding:8px 11px; border-radius:999px; background:rgba(13,49,78,.58); border:1px solid rgba(116,211,236,.24); box-shadow:inset 0 1px rgba(255,255,255,.09); }} .care-flow b {{ color:#65d8ee; font-weight:500; }}
+        .important-note {{ margin:1.35rem auto .7rem; max-width:900px; padding:15px 18px; border-left:3px solid #68d9ee; border-radius:0 13px 13px 0; background:rgba(9,42,65,.58); color:#dff7ff; line-height:1.6; }}
         .section-card {{ padding:23px 24px; }} .section-title {{ color:#f4fbff; font-family:'Manrope',sans-serif; font-weight:700; font-size:1.04rem; }}
         .metric-icon {{ border:1px solid rgba(139,219,240,.22); box-shadow:inset 0 1px rgba(255,255,255,.16),0 0 16px rgba(56,195,221,.08); }}
         .metric-icon.blue,.metric-icon.purple {{ background:rgba(24,105,136,.28); }} .metric-icon.red {{ background:rgba(138,24,54,.34); }} .metric-icon.green {{ background:rgba(18,108,91,.3); }}
@@ -69,7 +75,7 @@ def inject_theme():
         #google_translate_element {{ display:flex; align-items:center; min-height:26px; margin-left:auto; }}
         .goog-te-gadget {{ color:transparent !important; font-size:0 !important; }} .goog-te-gadget select {{ background:rgba(7,27,54,.82); color:#d8f2fc; border:1px solid rgba(128,211,239,.36); border-radius:8px; padding:5px 8px; font:600 .75rem 'DM Sans',sans-serif; outline:none; }}
         .goog-te-banner-frame.skiptranslate,iframe.goog-te-banner-frame,iframe.VIpgJd-ZVi9od-ORHb-OEVmcd {{ display:none !important; }} body {{ top:0 !important; }} .skiptranslate {{ font-size:0; }}
-        @media(max-width:720px) {{ .block-container {{ padding: .8rem 1rem 2rem; }} .navbar {{ align-items:flex-start; flex-direction:column; }} #google_translate_element {{ margin-left:0; }} .hero,.hero-banner {{ padding:22px; }} .metrics-row,.edu-grid {{ grid-template-columns:1fr 1fr; }} }}
+        @media(max-width:720px) {{ .block-container {{ padding: .8rem 1rem 2rem; }} .navbar {{ align-items:flex-start; flex-direction:column; }} #google_translate_element {{ margin-left:0; }} .hero,.hero-banner {{ padding:22px; }} .metrics-row {{ grid-template-columns:1fr 1fr; }} .care-flow {{ align-items:flex-start; flex-direction:column; }} .care-flow b {{ transform:rotate(90deg); margin-left:13px; }} }}
         </style>
         """,
         unsafe_allow_html=True,
