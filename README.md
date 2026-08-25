@@ -37,7 +37,7 @@ The application is designed for:
 The system produces an easy-to-understand triage recommendation:
 
 | Risk Score | Status     | Action                              |
-| ---------- | ---------- | ----------------------------------- |
+| ---------- | ---------- | ------------------------------------ |
 | < 30%      | 🟢 CLEAR   | Low likelihood of carrier status    |
 | 30–70%     | 🟡 MONITOR | Follow-up testing recommended       |
 | > 70%      | 🔴 REFER   | Prioritize for confirmatory testing |
@@ -54,6 +54,7 @@ In addition, the platform displays the nearest available referral center based o
 * CBC parameter input
 * Automatic feature engineering
 * Instant risk scoring
+* Recent patient history with search, CSV export, and summary stats (total screened, high/low risk counts, high-risk rate)
 
 ### 🩺 Clinical Risk Assessment
 
@@ -62,14 +63,18 @@ In addition, the platform displays the nearest available referral center based o
 * Referral center suggestions
 * Historical patient tracking
 
-### 📖 Educational Resource Center
+### 📖 Understand Sickle Cell (Visual Medical Guide)
 
-Dedicated public-health education modules covering:
+* Illustrated overview of what sickle cell disease is and how it affects red blood cells
+* Key effects (anemia, pain episodes, infections, organ damage)
+* Life & wellbeing and prevention & care guidance
+* "How Screening Fits In" flow: CBC screening → possible risk identified → confirmatory testing → healthcare professional
+* References & sources section
 
-* About Sickle Cell Disease
-* Community Impact
-* Symptoms & Warning Signs
-* Prevention & Care
+### ℹ️ About
+
+* Plain-language summary of what SickleScreen does and doesn't do
+* Reinforces that it is a screening aid designed to support, not replace, clinical care
 
 ---
 
@@ -78,11 +83,11 @@ Dedicated public-health education modules covering:
 Sickle cell carriers and affected individuals may exhibit characteristic hematological patterns.
 
 | Parameter       | Typical Range | Potential Carrier Pattern |
-| --------------- | ------------- | ------------------------- |
+| ---------------- | ------------- | -------------------------- |
 | Hemoglobin (Hb) | 12–16 g/dL    | Mildly reduced            |
-| MCV             | 80–100 fL     | Often reduced             |
-| MCH             | 27–32 pg      | Often reduced             |
-| RBC Count       | 4–5.5 M/µL    | Low-normal to reduced     |
+| MCV             | 80–100 fL     | Often reduced              |
+| MCH             | 27–32 pg      | Often reduced              |
+| RBC Count       | 4–5.5 M/µL    | Low-normal to reduced      |
 
 To improve classification performance, SickleScreen automatically calculates two hematological indices:
 
@@ -174,55 +179,43 @@ Core production interface responsible for:
 
 # 📸 Application Preview
 
-The following screenshots demonstrate the final SickleScreen user experience.
+The following screenshots demonstrate the current SickleScreen user experience.
 
 ---
 
-## 🏠 Dashboard & Patient Screening
+## 🏠 Screening Dashboard (Homepage)
 
-![Dashboard](Reference/dash.png)
+![Homepage — Overview](Reference/homepage1.png)
 
-The primary screening dashboard used by frontline healthcare workers to enter patient information, CBC parameters, and receive instant AI-assisted risk assessments.
+The primary screening dashboard, showing the AI-assisted screening header along with summary stats — total screened patients, high/low risk counts, and the high-risk rate — plus a CSV export option.
 
----
+![Homepage — Patient Input & History](Reference/homepage2.png)
 
-## 📖 About Sickle Cell Disease
-
-![About Sickle Cell](Reference/aboutsicklecell.png)
-
-Educational module explaining sickle cell disease, inheritance patterns, carrier status, testing methods, and common myths.
+Patient information and CBC parameter entry (Hemoglobin, RBC count, MCV, MCH) with live-calculated Mentzer and Shine & Lal indices, alongside a searchable, paginated table of recent patient history and computed risk scores.
 
 ---
 
-## 🌍 How Sickle Cell Affects Communities
+## 🧬 Understand Sickle Cell
 
-![Community Impact](Reference/sicklecellaffectsus.png)
+![Understand Sickle Cell — Visual Guide](Reference/understand1.png)
 
-Community-focused educational page covering social impact, emotional wellbeing, stigma reduction, and support strategies.
+Visual medical guide explaining how sickle cell disease affects red blood cells — from normal to sickled RBCs to blocked blood flow — alongside key effects such as anemia, pain episodes, infections, and organ damage.
+
+![Understand Sickle Cell — Life, Prevention & Screening Flow](Reference/understand2.png)
+
+Guidance on daily life, school/work, and family support, plus prevention and care topics (hydration, monitoring, vaccinations, medications, specialist care), and a "How Screening Fits In" flow from CBC screening through to a healthcare professional.
+
+![Understand Sickle Cell — Details & References](Reference/understand3.png)
+
+Detailed explanation of what sickle cell disease is, why screening matters, and what happens next after a screening flag — followed by a references & sources list (CDC, NHLBI, WHO, MedlinePlus, ASH, NIH/NHGRI).
 
 ---
 
-## ❤️ Prevention & Care
+## ℹ️ About SickleScreen
 
-![Prevention and Care](Reference/prevention.png)
+![About SickleScreen](Reference/about.png)
 
-Evidence-based recommendations covering hydration, infection prevention, family planning, genetic counseling, and long-term disease management.
-
----
-
-## 🚨 Symptoms & Warning Signs
-
-### Symptoms Overview
-
-![Symptoms Page 1](Reference/Symp1.png)
-
-Overview of common symptoms including pain crises, anemia, fatigue, swelling, infections, and jaundice.
-
-### Emergency Warning Signs
-
-![Symptoms Page 2](Reference/Symp2.png)
-
-Critical warning signs requiring urgent medical attention, including stroke symptoms, chest pain, severe infections, and other medical emergencies.
+The About page, summarizing SickleScreen as an AI-assisted educational screening tool and reinforcing that results are meant to guide conversations with healthcare professionals, not replace laboratory-confirmed diagnosis.
 
 ---
 
@@ -239,12 +232,12 @@ SickleScreen/
 │   ├── Symptoms.py
 │   └── Prevention_and_Care.py
 ├──Reference/
-│   ├── aboutsicklecell.png
-│   ├── dash.png
-│   ├── prevention.png
-│   ├── sicklecellaffectsus.png
-│   ├── Symp1.png
-│   └── Symp2.png
+│   ├── about.png
+│   ├── homepage1.png
+│   ├── homepage2.png
+│   ├── understand1.png
+│   ├── understand2.png
+│   └── understand3.png
 │
 ├── samfile1.py
 ├── samfile2.py
@@ -262,11 +255,11 @@ SickleScreen/
 # 🏥 Referral Database (Current Coverage)
 
 | District   | Referral Centre                |
-| ---------- | ------------------------------ |
+| ---------- | ------------------------------- |
 | Khordha    | Capital Hospital, Bhubaneswar  |
 | Koraput    | District Headquarters Hospital |
-| Sundargarh | IGH Rourkela                   |
-| Cuttack    | SCB Medical College            |
+| Sundargarh | IGH Rourkela                    |
+| Cuttack    | SCB Medical College              |
 
 # ⚙️ Setup & Installation
 
